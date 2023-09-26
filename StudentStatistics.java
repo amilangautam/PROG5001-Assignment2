@@ -23,11 +23,15 @@ class Student {
         this.ass1Mark = ass1Mark;
         this.ass2Mark = ass2Mark;
         this.ass3Mark = ass3Mark;
+        totalMarkCalculation();
        
     }
-
     
+    private void totalMarkCalculation() {
+        totalMark = ass1Mark + ass2Mark + ass3Mark;
+    }
 }
+
 public class StudentStatistics
 {
     
@@ -37,6 +41,7 @@ public class StudentStatistics
         //allow user to enter the File Name
         System.out.print("Please Enter the file name with Extension: ");
         String fileName = scanner.nextLine();
+        
 
         try {
             BufferedReader buff = new BufferedReader(new FileReader(fileName));
@@ -59,7 +64,7 @@ public class StudentStatistics
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             int lineNumber = 0;
-            Student[] std = new Student[70]; 
+            Student[] students = new Student[70]; 
 
             while ((line = reader.readLine()) != null) {
                 lineNumber++;
@@ -84,13 +89,28 @@ public class StudentStatistics
                         ass3Mark = Double.parseDouble(segment[5]);
                     }
 
-                    std[lineNumber - 2] = new Student(lastName, firstName, studentID, ass1Mark, ass2Mark, ass3Mark);
+                    students[lineNumber - 2] = new Student(lastName, firstName, studentID, ass1Mark, ass2Mark, ass3Mark);
                 }
             }
-            return std;
+            return students;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    private static void studentTotalMarkCalculation(Student[] students) {
+        System.out.println("Student list with their name, student ID, assessment marks and the total mark:");
+        for (Student student : students) {
+            if (student != null) { 
+                // Checking if student is null
+                double totalMark = student.ass1Mark + student.ass2Mark + student.ass3Mark;
+                System.out.println("Student Name: " + student.firstName + " " + student.lastName +
+                    ", Student ID: " + student.studentID +
+                    ", Assignment 1 Mark: " + student.ass1Mark +
+                    ", Assignment 2 Mark: " + student.ass2Mark +
+                    ", Assignment 3 Mark: " + student.ass3Mark +
+                    ", Total Mark: " + totalMark);
+            }
         }
     }
 }
